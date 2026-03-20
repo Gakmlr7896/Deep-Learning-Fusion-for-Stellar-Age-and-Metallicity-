@@ -2,18 +2,29 @@ CXX = g++
 CXXFLAGS = -std=c++17 -O2 -Wall
 LIBS = -lcfitsio
 
-TARGET = dataloader
-SRC = src/dataloader.cpp
+TARGETS = dataloader filter_galaxies
 
-all: $(TARGET)
+all: $(TARGETS)
 
-$(TARGET): $(SRC)
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET) $(LIBS)
+dataloader: src/dataloader.cpp
+	$(CXX) $(CXXFLAGS) src/dataloader.cpp -o dataloader $(LIBS)
+
+filter_galaxies: src/filter_galaxies.cpp
+	$(CXX) $(CXXFLAGS) src/filter_galaxies.cpp -o filter_galaxies $(LIBS)
+
+GalaxyDataLoader: src/GalaxyDataLoader.cpp 
+	$(CXX) $(CXXFLAGS) src/GalaxyDataLoader.cpp -o GalaxyDataLoader $(LIBS)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGETS)
 
 .PHONY: all clean
 
-run: all
+run_dataloader: dataloader
 	./dataloader
+
+run_filter: filter_galaxies
+	./filter_galaxies
+
+run_galaxyloader: GalaxyDataLoader
+	./GalaxyDataLoader
